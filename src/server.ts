@@ -7,6 +7,7 @@ import * as helmet from 'helmet';
 import * as mongoose from 'mongoose';
 import logger = require('morgan');
 import * as path from 'path';
+import AuthenticateRouter from './router/AuthenticateRouter';
 import UserRouter from './router/UserRouter';
 
 class Server {
@@ -45,7 +46,9 @@ class Server {
     this.app.get('/test', (req, res) => {
       res.send({test: 'ok'});
     });
+    
     this.app.use('/api/v1/users', UserRouter);
+    this.app.use('/api/v1/authenticate', AuthenticateRouter);
   }
 }
 
