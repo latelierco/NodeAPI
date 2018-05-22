@@ -1,12 +1,13 @@
+import bcrypt = require('bcrypt-nodejs');
 import { Request, Response, Router } from 'express';
 import * as jwt from 'jsonwebtoken';
 import User from '../models/User';
+import utils from '../utils/utils';
 
 class AuthenticateRouter {
 
   public router: Router;
   public authenticateRouter: AuthenticateRouter;
-  private secretKey: string = 'superSecretKey';
 
   constructor() {
     this.router = Router();
@@ -30,7 +31,7 @@ class AuthenticateRouter {
         } else if (!user) {
           res.status(403).send({ success: false, message: 'Authentication failed. User not found.' });
         } else if (user) {
-          if (user.password !== req.body.password) {
+          if (!bcrypt.compareSync(req.body.password, user.password)) {
             res.json({ success: false, message: 'Authentication failed. Wrong password.' });
           } else {
             res.json({
@@ -50,7 +51,7 @@ class AuthenticateRouter {
   }
 
   public routes() {
-    this.router.post('/', (req: Request, res: Response) => this.authenticate(req, res, this.secretKey ));
+    this.router.post('/', (req: Request, res: Response) => this.authenticate(req, res, utils.getTokenKey() ));
   }
 
 }

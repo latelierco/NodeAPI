@@ -1,15 +1,17 @@
 import * as debug from 'debug';
 import * as http from 'http';
 
+import config from './config/config';
 import Server from './server';
+import utils from './utils/Utils';
 
 debug('ts-express:server');
 
-const port = normalizePort(process.env.PORT || 3000);
+const port = normalizePort(process.env.PORT || config.port);
 Server.set('port', port);
 
 // tslint:disable-next-line:no-console
-console.log(`Server listening on port ${port}`);
+console.log(`${utils.newDate()}: Server listening on port ${port}`);
 
 const server = http.createServer(Server);
 server.listen(port);
@@ -27,12 +29,12 @@ function onError(error: NodeJS.ErrnoException): void {
   switch (error.code) {
     case 'EACCES':
       // tslint:disable-next-line:no-console
-      console.error(`${bind} requires elevated privileges`);
+      console.error(`${utils.newDate()}: ${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
       // tslint:disable-next-line:no-console
-      console.error(`${bind} is already in use`);
+      console.error(`${utils.newDate()}: ${bind} is already in use`);
       process.exit(1);
       break;
     default:

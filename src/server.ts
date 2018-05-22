@@ -1,33 +1,34 @@
 import * as bodyParser from 'body-parser';
 import compression = require('compression');
+import * as helmet from 'helmet';
+
+import bcrypt from 'bcrypt-nodejs';
 import cookieParser = require('cookie-parser');
 import cors = require('cors');
 import express = require('express');
-import * as helmet from 'helmet';
-import * as mongoose from 'mongoose';
 import logger = require('morgan');
-import * as path from 'path';
+import config from './config/config';
 import AuthenticateRouter from './router/AuthenticateRouter';
 import UserRouter from './router/UserRouter';
+import Mongo from './utils/Mongo';
+import utils from './utils/Utils';
 
 class Server {
 
-  // set app to be of type express.Application
   public app: express.Application;
+  public mongo;
+  private api_url: string = config.api_url;
 
   constructor() {
+    this.mongo = new Mongo();
     this.app = express();
     this.config();
     this.routes();
+    utils.app = this.app;
   }
   
-  // application config
   public config(): void {
 
-    const MONGO_URI: string = 'mongodb://localhost/tes'; 
-    mongoose.connect(MONGO_URI || process.env.MONGODB_URI as string);
-
-    // express middleware
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
@@ -35,22 +36,12 @@ class Server {
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
-
   }
 
-  // application routes
   public routes(): void {
-    const router: express.Router = express.Router();
-
-    this.app.use('/', router);
-    this.app.get('/test', (req, res) => {
-      res.send({test: 'ok'});
-    });
-    
-    this.app.use('/api/v1/users', UserRouter);
-    this.app.use('/api/v1/authenticate', AuthenticateRouter);
+    this.app.use(this.api_url + 'users', UserRouter);
+    this.app.use(this.api_url + 'authenticate', AuthenticateRouter);
   }
 }
 
-// export
 export default new Server().app;

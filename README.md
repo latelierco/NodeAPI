@@ -1,9 +1,9 @@
-# TypeScript Express Server (TES)
+# TypeScript Express API
 
-This is a sample server using Express, TypeScript, MongoDB, and Mongoose.
+This is a sample API using Express, TypeScript, MongoDB, and Mongoose.
 
 ### Getting Started
 
-`yarn install`
+`npm i`
 
-`yarn server`
+`npm start || npm run dev`

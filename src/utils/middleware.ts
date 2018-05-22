@@ -21,6 +21,5 @@ export default {
         message: 'No token provided.'
       });
     }
-  },
-  newDate: () => `${new Date().toLocaleString('fr-FR', { timeZone: 'UTC' })}`,
+  }
 };
