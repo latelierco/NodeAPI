@@ -1,5 +1,5 @@
 {
-  "name": "node-api",
+  "name": "typescript-api-restfull",
   "version": "1.0.0",
   "main": "./build/index.js",
   "license": "MIT",

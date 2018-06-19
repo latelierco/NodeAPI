@@ -1,3 +1,5 @@
+// tslint:disable:no-console
+
 import * as debug from 'debug';
 import * as http from 'http';
 
@@ -10,7 +12,6 @@ debug('ts-express:server');
 const port = normalizePort(process.env.PORT || config.port);
 Server.set('port', port);
 
-// tslint:disable-next-line:no-console
 console.log(`${utils.newDate()}: Server listening on port ${port}`);
 
 const server = http.createServer(Server);
@@ -28,12 +29,10 @@ function onError(error: NodeJS.ErrnoException): void {
   const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
   switch (error.code) {
     case 'EACCES':
-      // tslint:disable-next-line:no-console
       console.error(`${utils.newDate()}: ${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      // tslint:disable-next-line:no-console
       console.error(`${utils.newDate()}: ${bind} is already in use`);
       process.exit(1);
       break;

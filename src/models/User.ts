@@ -1,6 +1,7 @@
+// tslint:disable object-literal-sort-keys
+
 import { model, Schema } from 'mongoose';
 
-// tslint:disable object-literal-sort-keys
 const UserSchema: Schema = new Schema({
   createdAt: {
     type: Date,

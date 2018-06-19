@@ -1,9 +1,11 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "outDir": "./build/",
     "module": "commonjs",
     "target": "es5",
-    "sourceMap": true
+    "sourceMap": true,
+    "experimentalDecorators": true
   },
   "include": [
     "./src/**/*"
