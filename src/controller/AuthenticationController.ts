@@ -33,7 +33,7 @@ export default class AuthenticationController {
         }
       });
     } else {
-      res.json({
+      res.status(400).json({
         message: 'No name!',
         succes: false,
       });

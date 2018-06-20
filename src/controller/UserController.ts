@@ -2,36 +2,45 @@ import bcrypt = require('bcrypt-nodejs');
 import { Request, Response } from 'express';
 import User from '../models/User';
 import authenticateBefore from '../utils/Middleware';
+import utils from '../utils/Utils';
 import AuthenticationController from './AuthenticationController';
 
 export default class UserController {
   public authController = new AuthenticationController();
 
   @authenticateBefore
-  public findAll(req: Request, res: Response, status?: any): void {
-    User.find().then((data) => {
-      res.status(200).json({ data });
+  public async findAll(req: Request, res: Response, status?: any) {
+    await User.find({}).then((data) => {
+      res.status(200).json(
+        utils.formatData(true, data)
+      );
     }).catch((error) => {
-      res.status(500).json({ error });
+      res.status(500).json(
+        utils.formatData(false, error)
+      );
     });
   }
 
   @authenticateBefore
-  public findOne(req: Request, res: Response, status?: any): void {
+  public async findOne(req: Request, res: Response, status?: any) {
     const _id: string = req.params.userID;
-    User.findOne({ _id })
+    await User.findOne({ _id })
       .then((data) => {
         res.status(200);
-        res.json({ data });
+        res.json(
+          utils.formatData(true, data)
+        );
       })
       .catch((error) => {
         res.status(500);
-        res.json({ error });
+        res.json(
+          utils.formatData(false, error)
+        );
       });
   }
 
   @authenticateBefore
-  public create(req: Request, res: Response, status?: any): void {
+  public async create(req: Request, res: Response, status?: any) {
     const firstName: string = req.body.firstname;
     const lastName: string = req.body.lastname;
     const username: string = req.body.username;
@@ -44,39 +53,49 @@ export default class UserController {
       password,
       username
     });
-    user.save()
+    await user.save()
       .then((data) => {
-        res.status(201).json({ data });
+        res.status(201).json(
+          utils.formatData(true, data)
+        );
       }).catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json(
+          utils.formatData(false, error)
+        );
       });
   }
 
   @authenticateBefore
-  public update(req: Request, res: Response, status?: any): void {
+  public async update(req: Request, res: Response, status?: any) {
     const _id: string = req.params.userID;
     const updatedAt: Date = new Date();
     if (req.body.password) {
       req.body.password = bcrypt.hashSync(req.body.password);
     }
-    User.findOneAndUpdate({ _id }, { ...req.body, updatedAt }, { new: true })
+    await User.findOneAndUpdate({ _id }, { ...req.body, updatedAt }, { new: true })
       .then((data) => {
-        res.status(200).json({ data });
+        res.status(200).json(
+          utils.formatData(true, data)
+        );
       })
       .catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json(
+          utils.formatData(false, error)
+        );
       });
   }
 
   @authenticateBefore
-  public delete(req: Request, res: Response, status?: any): void {
+  public async delete(req: Request, res: Response, status?: any) {
     const _id: string = req.params.userID;
-    User.findOneAndRemove({ _id })
+    await User.findOneAndRemove({ _id })
       .then(() => {
         res.status(204).end();
       })
       .catch((error) => {
-        res.status(500).json({ error });
+        res.status(500).json(
+          utils.formatData(false, error)
+        );
       });
   }
 }

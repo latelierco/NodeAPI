@@ -1,15 +1,16 @@
 import bcrypt = require('bcrypt-nodejs');
 import config from '../config/config';
 import User from '../models/User';
+import utils from './Utils';
 
 export default class Seeder {
   public user;
   constructor() {
-    this.user = config.defaultUser;
+    this.user = utils.getDefaultUser();
     this.user.password = bcrypt.hashSync(this.user.password);
   }
   public seedUser() {
-    return this.verifyIfNotExist().then( (_) =>  {
+    return this.verifyIfNotExist().then( (_) => {
       const user = new User(this.user);
       return user.save()
         .then((__) => {

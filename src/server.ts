@@ -7,7 +7,6 @@ import cors = require('cors');
 import express = require('express');
 import * as helmet from 'helmet';
 import logger = require('morgan');
-import config from './config/config';
 import AuthenticateRouter from './router/AuthenticateRouter';
 import UserRouter from './router/UserRouter';
 import Mongo from './utils/Mongo';
@@ -18,7 +17,7 @@ class Server {
 
   public app: express.Application;
   public mongo;
-  private api_url: string = config.api_url;
+  private url: string = utils.getApiUrl() as string;
   public seeder: Seeder;
 
   constructor() {
@@ -31,8 +30,8 @@ class Server {
   }
 
   public routes(): void {
-    this.app.use(`${this.api_url}users`, UserRouter);
-    this.app.use(`${this.api_url}authenticate`, AuthenticateRouter);
+    this.app.use(`${this.url}users`, UserRouter);
+    this.app.use(`${this.url}authenticate`, AuthenticateRouter);
   }
 
   public config(): void {

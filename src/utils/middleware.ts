@@ -1,5 +1,4 @@
 // tslint:disable:prefer-for-of
-
 import * as jwt from 'jsonwebtoken';
 import utils from './utils';
 
@@ -12,10 +11,12 @@ export default function authenticateBefore(target: any, key: any, descriptor: Pr
     for (let index = 0; index < arguments.length; index++) {
       args.push(arguments[index]);
     }
-    const token = args[0].body.token || args[0].headers['x-access-token'] || '';
+    const req = args[0];
+    const res = args[1];
+    const token = req.body.token || req.headers['x-access-token'] || '';
     jwt.verify(token, utils.getTokenKey(), (err, decoded) => {
       if (err) {
-        args[1].status(401).json({
+        res.status(401).json({
           success: false,
           message: 'No token provided.'
         });

@@ -3,7 +3,6 @@ import AuthenticationController from '../controller/AuthenticationController';
 import utils from '../utils/utils';
 
 class AuthenticateRouter {
-
   public router: Router;
   public authenticateRouter: AuthenticateRouter;
   public authController: AuthenticationController;

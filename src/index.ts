@@ -3,13 +3,12 @@
 import * as debug from 'debug';
 import * as http from 'http';
 
-import config from './config/config';
 import Server from './server';
 import utils from './utils/Utils';
 
 debug('ts-express:server');
 
-const port = normalizePort(process.env.PORT || config.port);
+const port = normalizePort(utils.getPort());
 Server.set('port', port);
 
 console.log(`${utils.newDate()}: Server listening on port ${port}`);

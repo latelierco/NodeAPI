@@ -1,42 +1,40 @@
-// tslint:disable object-literal-sort-keys
-
 import { model, Schema } from 'mongoose';
 
 const UserSchema: Schema = new Schema({
   createdAt: {
+    default: Date.now,
     type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  },
-  firstName: {
-    type: String,
-    default: '',
-    required: true
-  },
-  lastName: {
-    type: String,
-    default: '',
-    required: true
-  },
-  username: {
-    type: String,
-    default: '',
-    required: true,
-    unique: true,
-    lowercase: true
   },
   email: {
-    type: String,
     default: '',
-    required: true
+    required: true,
+    type: String,
+  },
+  firstName: {
+    default: '',
+    required: true,
+    type: String,
+  },
+  lastName: {
+    default: '',
+    required: true,
+    type: String,
   },
   password: {
-    type: String,
     default: '',
-    required: true
+    required: true,
+    type: String,
+  },
+  updatedAt: {
+    default: Date.now,
+    type: Date,
+  },
+  username: {
+    default: '',
+    lowercase: true,
+    required: true,
+    type: String,
+    unique: true,
   },
 });
 
