@@ -1,6 +1,6 @@
 # TypeScript Express API
 
-This is a simple Restfull API using [Express](http://expressjs.com/fr/), [TypeScript](http://definitelytyped.org/), [MongoDB](https://www.mongodb.com/), and [Mongoose](http://mongoosejs.com/docs/).
+This is a simple Restfull API using [Express](http://expressjs.com/fr/), [TypeScript](http://definitelytyped.org/) and [MongoDB](https://www.mongodb.com/).
 
 
 
