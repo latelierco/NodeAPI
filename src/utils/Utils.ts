@@ -6,7 +6,7 @@ export default {
   getTokenKey: () => process.env.secret as string || config.secret,
   getMONGO_URI: () => process.env.MONGODB_URI as string || config.database,
   getApiUrl: () => process.env.apiUrl as string || config.api_url,
-  getPort: () => process.env.port as string || config.port,
+  getPort: () => process.env.PORT as string || config.port,
   getDefaultUser: () => (process.env.defaultUser) ? JSON.parse(process.env.defaultUser as string) as object : config.defaultUser,
   formatData: (success: any, data: any) => {
     return { success, data };

@@ -4,6 +4,7 @@ import User from '../models/User';
 import authenticateBefore from '../utils/Middleware';
 import utils from '../utils/Utils';
 import AuthenticationController from './AuthenticationController';
+import wording from '../config/wording'
 
 export default class UserController {
   public authController = new AuthenticationController();
@@ -23,6 +24,12 @@ export default class UserController {
 
   @authenticateBefore
   public async findOne(req: Request, res: Response, status?: any) {
+    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+      res.status(401).json({
+        success: false,
+        message: wording.unauthorized
+      });
+    }
     const _id: string = req.params.userID;
     await User.findOne({ _id })
       .then((data) => {
@@ -67,6 +74,12 @@ export default class UserController {
 
   @authenticateBefore
   public async update(req: Request, res: Response, status?: any) {
+    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+      res.status(401).json({
+        success: false,
+        message: wording.unauthorized
+      });
+    }
     const _id: string = req.params.userID;
     const updatedAt: Date = new Date();
     if (req.body.password) {
@@ -87,6 +100,12 @@ export default class UserController {
 
   @authenticateBefore
   public async delete(req: Request, res: Response, status?: any) {
+    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+      res.status(401).json({
+        success: false,
+        message: wording.unauthorized
+      });
+    }
     const _id: string = req.params.userID;
     await User.findOneAndRemove({ _id })
       .then(() => {

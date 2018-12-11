@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import AuthenticationController from '../controller/AuthenticationController';
-import utils from '../utils/utils';
+import utils from '../utils/Utils';
 
 class AuthenticateRouter {
   public router: Router;

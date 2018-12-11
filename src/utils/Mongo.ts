@@ -12,7 +12,7 @@ class Mongo {
   }
 
   public config() {
-    mongoose.connect(utils.getMONGO_URI());
+    this.mongoose.connect(utils.getMONGO_URI());
     this.db = mongoose.connection;
     this.db.on('error', () => console.log(`${utils.newDate()}: connection error:`));
     this.db.once('open', () => console.log(`${utils.newDate()}: Connected to Mongo`));

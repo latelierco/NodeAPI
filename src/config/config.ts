@@ -9,5 +9,14 @@ export default {
       lastName: 'admin',
       password: 'admin',
       username: 'admin',
+      role: 9,
+    },
+    permissions: {
+      findAll: 9,
+      findOne: 1,
+      create: 9,
+      update: 1,
+      delete: 1,
+      authenticate: 0,
     },
 };

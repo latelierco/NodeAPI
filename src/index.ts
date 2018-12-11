@@ -2,7 +2,6 @@
 
 import * as debug from 'debug';
 import * as http from 'http';
-
 import Server from './server';
 import utils from './utils/Utils';
 
