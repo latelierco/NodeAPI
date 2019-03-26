@@ -5,6 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node ./build/index.js\"",
+    "build": "tsc",
+    "postinstall": "tsc",
     "start": "node ./build/index.js",
     "ts:watch": "tsc -w"
   },
@@ -18,9 +20,10 @@
     "express": "4.16.2",
     "helmet": "3.9.0",
     "jsonwebtoken": "^5.7.0",
-    "lodash": "^4.17.10",
-    "mongoose": "5.0.0-rc1",
-    "morgan": "1.9.0"
+    "mongoose": "^5.4.11",
+    "morgan": "^1.9.1",
+    "validator": "^10.11.0",
+    "typescript": "2.6.2"
   },
   "devDependencies": {
     "@types/body-parser": "1.16.8",
@@ -33,9 +36,9 @@
     "@types/mongoose": "4.7.32",
     "@types/morgan": "^1.7.35",
     "@types/node": "8.5.5",
+    "@types/validator": "^10.9.0",
     "nodemon": "1.14.7",
-    "tsc-watch": "^1.0.22",
-    "tslint": "5.8.0",
-    "typescript": "2.6.2"
+    "tsc-watch": "^1.1.39",
+    "tslint": "5.8.0"
   }
 }

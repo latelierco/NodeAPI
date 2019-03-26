@@ -1,10 +1,11 @@
 import bcrypt = require('bcrypt-nodejs');
 import { Request, Response } from 'express';
+import config from '../config/Index';
+import wording from '../config/Word';
+import authenticateBefore from '../middleware/Authenticate';
 import User from '../models/User';
-import authenticateBefore from '../utils/Middleware';
 import utils from '../utils/Utils';
 import AuthenticationController from './AuthenticationController';
-import wording from '../config/wording'
 
 export default class UserController {
   public authController = new AuthenticationController();
@@ -24,7 +25,7 @@ export default class UserController {
 
   @authenticateBefore
   public async findOne(req: Request, res: Response, status?: any) {
-    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+    if (status.user.role !== config.role.admin && req.params.userID !== status.user.id) {
       res.status(401).json({
         success: false,
         message: wording.unauthorized
@@ -48,8 +49,12 @@ export default class UserController {
 
   @authenticateBefore
   public async create(req: Request, res: Response, status?: any) {
-    const firstName: string = req.body.firstname;
-    const lastName: string = req.body.lastname;
+    if (!utils.verifyBody(req)) {
+      res.status(500).json( utils.formatData(false, wording.unauthorized) );
+      return;
+    }
+    const firstName: string = req.body.firstName;
+    const lastName: string = req.body.lastName;
     const username: string = req.body.username;
     const email: string = req.body.email;
     const password: string = bcrypt.hashSync(req.body.password);
@@ -74,11 +79,15 @@ export default class UserController {
 
   @authenticateBefore
   public async update(req: Request, res: Response, status?: any) {
-    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+    if (status.user.role !== config.role.admin && req.params.userID !== status.user.id) {
       res.status(401).json({
         success: false,
         message: wording.unauthorized
       });
+    }
+    if (!utils.verifyBody(req)) {
+      res.status(500).json( utils.formatData(false, wording.unauthorized) );
+      return;
     }
     const _id: string = req.params.userID;
     const updatedAt: Date = new Date();
@@ -100,7 +109,7 @@ export default class UserController {
 
   @authenticateBefore
   public async delete(req: Request, res: Response, status?: any) {
-    if (status.user.role === 1 && req.params.userID !== status.user.id) {
+    if (status.user.role !== config.role.admin && req.params.userID !== status.user.id) {
       res.status(401).json({
         success: false,
         message: wording.unauthorized

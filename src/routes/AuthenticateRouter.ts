@@ -10,17 +10,13 @@ class AuthenticateRouter {
   constructor() {
     this.authController = new AuthenticationController();
     this.router = Router();
-    this.routes();
+    this.setRoutes();
   }
 
-  public routes() {
-    this.router.post('/', (req: Request, res: Response) =>
-      this.authController.authenticate(req, res, utils.getTokenKey())
-    );
+  public setRoutes() {
+    this.router
+      .post('/', (req: Request, res: Response) => this.authController.authenticate(req, res, utils.getTokenKey()));
   }
 }
 
-this.authenticateRouter = new AuthenticateRouter();
-this.authenticateRouter.routes();
-
-export default this.authenticateRouter.router;
+export default new AuthenticateRouter().router;

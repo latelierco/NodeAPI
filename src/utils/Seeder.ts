@@ -3,7 +3,7 @@ import User from '../models/User';
 import utils from './Utils';
 
 export default class Seeder {
-  public user;
+  public user: any;
   constructor() {
     this.user = utils.getDefaultUser();
     this.user.password = bcrypt.hashSync(this.user.password);
@@ -25,10 +25,6 @@ export default class Seeder {
   }
 
   public verifyIfNotExist() {
-    return User.findOne({ role: this.user.role }).then((_) => {
-      return (_) ? true : false;
-    }).catch((_) => {
-      return false;
-    });
+    return User.findOne({ role: this.user.role }).then((_) => (_) ? true : false).catch((_) => false);
   }
 }

@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
-import config from '../config/config';
-import utils from './Utils';
-import wording from '../config/wording'
+import config from '../config/Index';
+import wording from '../config/Word';
+import utils from '../utils/Utils';
 
 export default function authenticateBefore(target: any, key: any, descriptor: PropertyDescriptor) {
   descriptor = Object.getOwnPropertyDescriptor(target, key);
@@ -9,7 +9,9 @@ export default function authenticateBefore(target: any, key: any, descriptor: Pr
   descriptor.value = function() {
     const args = [];
     const status = { status: false, user: false };
-    for (let index = 0; index < arguments.length; index++) args.push(arguments[index]);
+    for (const arg of Array.from(arguments)) {
+      args.push(arg);
+    }
     const req = args[0];
     const res = args[1];
     const token = req.body.token || req.headers['x-access-token'] || '';
@@ -17,7 +19,7 @@ export default function authenticateBefore(target: any, key: any, descriptor: Pr
       if (err) {
         res.status(401).json({
           success: false,
-          ...err
+          message: wording.tokenFailed
         });
       } else {
         status.status = true;

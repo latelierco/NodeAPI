@@ -4,5 +4,6 @@ export default {
   tokenEnjoy: 'Enjoy your token!',
   userNotFound: 'Authentication failed. User not found.',
   wrongPassword: 'Authentication failed. Wrong password.',
-  noCredentials: 'No token or identifier provided.'
-}
+  noCredentials: 'No token or identifier provided.',
+  badCredentials: 'Bad credientials provided.'
+};

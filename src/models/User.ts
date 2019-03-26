@@ -6,22 +6,19 @@ const UserSchema: Schema = new Schema({
     type: Date,
   },
   email: {
-    default: '',
     required: true,
+    unique: true,
     type: String,
   },
   firstName: {
-    default: '',
     required: true,
     type: String,
   },
   lastName: {
-    default: '',
     required: true,
     type: String,
   },
   password: {
-    default: '',
     required: true,
     type: String,
   },
@@ -34,7 +31,6 @@ const UserSchema: Schema = new Schema({
     type: Date,
   },
   username: {
-    default: '',
     lowercase: true,
     required: true,
     type: String,

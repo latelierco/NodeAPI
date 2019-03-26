@@ -1,8 +1,9 @@
 import bcrypt = require('bcrypt-nodejs');
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+import wording from '../config/Word';
 import User from '../models/User';
-import wording from '../config/wording'
+import utils from '../utils/Utils';
 
 export default class AuthenticationController {
   public authenticate(req: Request, res: Response, secretKey: string) {
@@ -12,18 +13,22 @@ export default class AuthenticationController {
         if (err) {
           return res.status(403).json({ success: false, message: wording.tokenFailed });
         } else {
-          res.json({ success: true, message: wording.tokenEnjoy, token: decoded });
+          res.json({ success: true, message: null, token: decoded });
         }
       });
     } else if (req.body.username) {
+      if (!utils.verifyBody(req)) {
+        res.status(500).json( utils.formatData(false, wording.unauthorized) );
+        return;
+      }
       User.findOne({ username: req.body.username }, (err: Error, user: any) => {
         if (err) {
-          res.status(403).send({ succes: false, err });
+          res.status(403).send({ succes: false, message: wording.badCredentials });
         } else if (!user) {
-          res.status(403).send({ success: false, message: wording.userNotFound });
+          res.status(403).send({ success: false, message: wording.badCredentials });
         } else if (user) {
           if (!bcrypt.compareSync(req.body.password, user.password)) {
-            res.json({ success: false, message: wording.wrongPassword });
+            res.json({ success: false, message: wording.badCredentials });
           } else {
             res.json({
               message: wording.tokenEnjoy,
@@ -35,7 +40,7 @@ export default class AuthenticationController {
       });
     } else {
       res.status(400).json({
-        message: wording.noCredentials,
+        message: wording.badCredentials,
         succes: false,
       });
     }
